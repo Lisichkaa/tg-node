@@ -14,15 +14,8 @@ app.use(cors());
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
-
-    if(text === '/start') {
-        await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
-            reply_markup: {
-                keyboard: [
-                    [{text: 'Заполнить форму', web_app: {url: webAppUrl + '/form'}}]
-                ]
-            }
-        })
+    await bot.sendMessage(chatId, 'HELLO')
+    if(text === '/start') {      
 
         await bot.sendMessage(chatId, 'Заходи в наш интернет магазин по кнопке ниже', {
             reply_markup: {
@@ -51,14 +44,14 @@ bot.on('message', async (msg) => {
 });
 
 app.post('/web-data', async (req, res) => {
-    const {queryId, products = [], totalPrice} = req.body;
+    const {queryId} = req.body; //, products = [], totalPrice
     try {
         await bot.answerWebAppQuery(queryId, {
             type: 'article',
             id: queryId,
             title: 'Успешная покупка',
             input_message_content: {
-                message_text: ` Поздравляю с покупкой, вы приобрели товар на сумму ${totalPrice}, ${products.map(item => item.title).join(', ')}`
+                message_text: ` Поздравляю с покупкой, ${queryId}`
             }
         })
         return res.status(200).json({});
