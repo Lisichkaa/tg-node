@@ -25,6 +25,15 @@ bot.on('message', async (msg) => {
             }
         })
     }
+    if(text == "/хуй"){
+         await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
+            reply_markup: {
+                keyboard: [
+                    [{text: 'keyboard', web_app: {url: webAppUrl}}]
+                ]
+            }
+        })
+    }
 
     if(msg?.web_app_data?.data) {
         try {
